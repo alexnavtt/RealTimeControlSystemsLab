@@ -1,0 +1,8 @@
+1. Pendulum - up and slightly right, Clockwise, 0 degree
+2. Pendulum - up and slightly left, Counter-Clockwise, 0 degree
+
+3. Pendulum - up and slightly right, Clockwise, 0 degree
+4. Pendulum - up and slightly left, Counter-Clockwise, 0 degree
+
+5. Pendulum -  right flat, Clockwise, 0 degree
+6. Pendulum -  left flat, Counter-Clockwise, 0 degree
