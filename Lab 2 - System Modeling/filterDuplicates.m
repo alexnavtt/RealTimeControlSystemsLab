@@ -30,3 +30,6 @@ for i = 2:numel(T)
 	end
 end
 
+for i = 1:nargout-1
+	assert(numel(T_out) == numel(varargout{i}));
+end

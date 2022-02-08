@@ -41,7 +41,7 @@ for i = 1:4
 	
 	figure(i)
 	
-	% Compare the inputs of the sim and the measured values
+	% Show the input signal
 	subplot(3,1,1)
 	hold on
 	plot(sim_zrd_time, sim_zrd)
