@@ -2,3 +2,5 @@
 slprj/
 *.slxc
 *.autosave
+*/FPGA\ Bitfiles/
+*.tdms_index
