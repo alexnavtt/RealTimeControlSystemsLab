@@ -5,10 +5,13 @@ varargout  = cell(num_channels,1);	% Output cleaned data
 
 % Read the data from the TDMS file
 [messy_data{:}] = TDMSdata(filepath, num_channels);
+data_len = length(messy_data{end});
+
+% Initialize the output
 for i = 1:num_channels
+	varargout{i} = zeros(data_len,1);
 	varargout{i}(1) = messy_data{i}(1);
 end
-data_len = length(messy_data{end});
 
 % Loop through and record data whenever it changes
 idx = 1;
@@ -32,5 +35,5 @@ for i = 2:data_len
 end
 
 for i = 1:num_channels
-	varargout{i} = varargout{i}(1:idx-1)';
+	varargout{i} = varargout{i}(1:idx-1);
 end
