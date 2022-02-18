@@ -4,3 +4,4 @@ slprj/
 *.autosave
 */FPGA\ Bitfiles/
 *.tdms_index
+*.aliases
