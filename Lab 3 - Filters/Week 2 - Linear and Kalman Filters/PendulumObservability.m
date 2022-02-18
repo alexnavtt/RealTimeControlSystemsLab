@@ -7,7 +7,8 @@ load('pendulum_params')
 %% Set up Matrices
 
 % Unknown electrical parameters of the motor
-syms kt km Kg Rm real 
+syms kt km Rm real 
+Kg = 70;	% gear ratio of the motor
 motor_dyn = Kg^2*kt*km/Rm;
 
 % Generate the modified A and B matrices
@@ -23,6 +24,20 @@ C = [1 0 0 0 ;
 	 0 1 0 0];
 obs_mat = [C;C*Am;C*Am^2;C*Am^3];
 fprintf("Observability matrix is of rank %d\n", rank(obs_mat));
+if rank(obs_mat) == 4
+	disp("The system is observable")
+else
+	disp("The system is not observable")
+end
+disp(" ")
+
+%% Place the poles of the gain matrix
+
+% Place all the poles
+pp = [-2;-3;-2;-3];
+L = place(linsys.A', C', pp);
+fprintf("Pole placements for eigenvalues of (%.1f, %.1f, %.1f, %.1f):\n", pp);
+disp(L)
 
 
 
