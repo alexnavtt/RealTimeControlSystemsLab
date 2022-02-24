@@ -25,3 +25,25 @@ sys = ss(Am, Bm, C, D);
 [K,S,E] = lqr(sys, Q, R);
 disp("Feedback gain: ")
 disp(K)
+
+%Checking controlability of the system
+comat=ctrb(Am,Bm);
+corank=rank(comat);
+
+%Chekcing open loop eigenvalues: 
+eigA = eig(Am);
+disp("Eigenvalues of Am: ");
+disp(eigA);
+
+%Closed Loop eigenvalues desired:
+P=[-3 -48 -7 -5.85];
+
+%calculating Kcl using pole placement and checking closed loop eignenvals
+Kcl=place(Am,Bm,P);
+Acl= Am-Bm*Kcl;
+Eigcl =eig(Acl);
+disp("Eigenvalues for Acl: ");
+disp(Eigcl);
+
+
+
