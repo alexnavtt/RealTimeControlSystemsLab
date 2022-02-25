@@ -2,25 +2,25 @@
 clc
 clear
 close all
-load('pendulum_params')
+run('load_pendulum_params')
 
 %% Set up Matrices
 
-% Unknown electrical parameters of the motor
-kt = 0.00767;
-km = 0.00767;
-Rm = 2.60;
-Kg = 70;	% gear ratio of the motor
-motor_dyn = Kg^2*kt*km/Rm;
-
-% Generate the modified A and B matrices
-detMinv = 1/det(M);
-% Am = sym(linsys.A);
-Am = linsys.A;
-Am(3,3) = linsys.A(3,3) - (motor_dyn *(Jp+0.25*mp*Lp^2))*detMinv;
-Am(4,3) = linsys.A(4,3) - 0.5*detMinv*motor_dyn*mp*Lp*Lr;
-
-Bm = Kg*kt/Rm * linsys.B;
+% % Unknown electrical parameters of the motor
+% kt = 0.00767;
+% km = 0.00767;
+% Rm = 2.60;
+% Kg = 70;	% gear ratio of the motor
+% motor_dyn = Kg^2*kt*km/Rm;
+% 
+% % Generate the modified A and B matrices
+% detMinv = 1/det(M);
+% % Am = sym(linsys.A);
+% Am = linsys.A;
+% Am(3,3) = linsys.A(3,3) - (motor_dyn *(Jp+0.25*mp*Lp^2))*detMinv;
+% Am(4,3) = linsys.A(4,3) - 0.5*detMinv*motor_dyn*mp*Lp*Lr;
+% 
+% Bm = Kg*kt/Rm * linsys.B;
 
 %% Calculate the observability matrix
 C = [1 0 0 0 ;
