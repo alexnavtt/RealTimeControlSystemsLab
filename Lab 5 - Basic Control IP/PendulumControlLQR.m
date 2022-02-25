@@ -23,7 +23,7 @@ D = zeros(4,1);
 % Calculate the gain vector
 sys = ss(Am, Bm, C, D);
 [K,S,E] = lqr(sys, Q, R);
-disp("Feedback gain: ")
+disp("Feedback gain using LQR: ")
 disp(K)
 
 %Checking controlability of the system
