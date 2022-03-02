@@ -8,7 +8,7 @@ run('load_pendulum_params')
 % Decide the weighting of each of the states
 Q = zeros(4);
 Q(1,1) = 6;		% Hub angle position
-Q(2,2) = 1;		% Pendulum angle position
+Q(2,2) = 10;	% Pendulum angle position
 Q(3,3) = 0.1;	% Hub angle velocity
 Q(4,4) = 0.1;	% Pendulum angle velocity
 Q = Q/norm(Q);	% Normalize the weight matrix
@@ -36,10 +36,14 @@ disp("Eigenvalues of Am: ");
 disp(eigA);
 
 %Closed Loop eigenvalues desired:
-P=[-3 -48 -7 -5.85];
+P=[-10 -48 -7 -5];
+% P=[-3 -48 -7 -5.85];
+% K=[-5.28,28.25,-2.76,3.2];
 
 %calculating Kcl using pole placement and checking closed loop eignenvals
 Kcl=place(Am,Bm,P);
+disp("Gains with pole placement:")
+disp(Kcl)
 Acl= Am-Bm*Kcl;
 Eigcl =eig(Acl);
 disp("Eigenvalues for Acl: ");
