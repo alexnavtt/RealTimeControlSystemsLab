@@ -1554,6 +1554,7 @@ AddOutputFilter chunkFilter
 				<Item Name="Build Specifications" Type="Build"/>
 			</Item>
 		</Item>
+		<Item Name="ROTPEN Control template CLEAN.vi" Type="VI" URL="../../ROTPEN Control template CLEAN.vi"/>
 		<Item Name="ROTPEN Control template.vi" Type="VI" URL="../../ROTPEN Control template.vi"/>
 		<Item Name="RotPenBasicLinCont.lvlib" Type="Library" URL="../RotPenBasicLinCont.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies">
