@@ -1,9 +1,9 @@
-Ms  = 2.45; % kg
-Mus = 1.00; % kg
-Ks  = 900;  % N/m
-Kus = 1250; % N/m
-Bs  = 7.5;  % N s/m
-Bus = 5.0;  % N s/m
+Ms  = 2.45; %2.45; % kg
+Mus = 1.00; %1.00; % kg
+Ks  = 1000; %900;  % N/m
+Kus = 1250; %1250; % N/m
+Bs  = 15; %7.5;  % N s/m
+Bus = 15; %5.0;  % N s/m
 
 A = [  0         1         0            -1        ;
 	 -Ks/Ms   -Bs/Ms       0           Bs/Ms      ;
