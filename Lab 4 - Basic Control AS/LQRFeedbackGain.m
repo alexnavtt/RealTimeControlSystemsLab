@@ -1,19 +1,19 @@
 run("load_suspension_params")
 
 % Decide the weighting of each of the states
-Q = zeros(4);
-Q(1,1) = 10;	% suspension travel
-Q(2,2) = 0.5;	% tire deflection
-Q(3,3) = 0.5;	% Vehicle Body Vertical velocity
-Q(4,4) = 0.5;	% tire vertical velocity
+Q = eye(4);
+Q(1,1) = 0.005;	% suspension travel
+Q(2,2) = 10;	% Vehicle Body Vertical velocity
+Q(3,3) = 0.005;	% tire deflection
+Q(4,4) = 10;	% tire vertical velocity
 
 % Set the weight of the input
-R = 0.0005;
+R = 0.005;
 
 % Calculate the gain vector
-sys = ss(Am, Bm, Cm, Dm);
-[K,~,~] = lqr(sys, Q, R);
+[K,~,~] = lqr(Am, Bm, Q, R);
 
-LQRGain = K(:);
+gain = 1;
+LQRGain = gain * K(:)
 
 

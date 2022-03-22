@@ -1,6 +1,5 @@
 run("load_suspension_params")
 
-% Found some good poles through trial and error in simulation
-poles = 10*[-5, -3, -2, -1];
+poles = [-0.5, -3, -0.2, -0.1];
 polePlacementGain = place(Am, Bm, poles);
-polePlacementGain = polePlacementGain(:);
+polePlacementGain = 0.0001*polePlacementGain(:)
