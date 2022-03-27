@@ -9,10 +9,10 @@ close all
 %% Params
 typenames = ["LQR", "PolePlacement"];
 type = typenames(1);
-open_loop = 0;
+open_loop = 1;
 use_noise = 1;
 plot_real_data = 1;
-plot_open_loop = 1;
+plot_open_loop = 0;
 
 %% Data
 
@@ -61,8 +61,8 @@ if type == "LQR"
     disp(eig(Am-Bm*K))
     
 elseif type == "PolePlacement"
-    p1 = -7 - 0.1*1i;
-    p2 = -7 + 0.1*1i;
+    p1 = -7 - 10*1i;
+    p2 = -7 + 10*1i;
     p3 = -3 + 4*1i;
     p4 = -3 - 4*1i;
     
@@ -75,6 +75,15 @@ if open_loop
     K = [0 0 0 0];
 end
 sim('LinearControlSim.slx')
+
+%% Calculate observer gain
+pp = [-1, -3, -5, -7];
+ob = obsv(A, C);
+rank(ob)
+C_prime = C(1,:);
+L = place(A', C_prime', pp);
+disp("Observer gain:")
+disp(L)
 
 %% Simulation results
 
@@ -169,7 +178,10 @@ if (plot_real_data)
     plot(T_data, s4);
 end
 
-legend(legend_cell)
+for i = 1:4
+    subplot(2,2,i)
+    legend(legend_cell)
+end
 
 %% This plot should match against LabView 
 figure()
