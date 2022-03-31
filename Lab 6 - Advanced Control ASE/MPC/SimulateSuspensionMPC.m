@@ -41,11 +41,16 @@ dD = zeros(4,1);
 
 % Weighting matrices
 Q = eye(4);
+Q(1,1) = 1;
+Q(2,2) = 1;
+Q(3,3) = 1;
+Q(4,4) = 1;
 R = 0.0005;
 
 % Control and Prediction Horizon
-Np = 10;
-Nc = 6;
+Np = 100;
+Nc = 50;
+assert(Np >= Nc)
 
 if use_sym
    syms A B C D real 
@@ -74,7 +79,7 @@ for row = 1:(size(Bp,1)/hB)
     row_end_idx   = hB*row;
 
     row_entry = Zeros(hB, size(Bp,2));
-    for col = 1:size(Bp,2)
+    for col = 1:(size(Bp,2)/wB)
         % Find the chunk for this entry
         start_col_idx = wB*(col-1)+1;
         end_col_idx  = wB*col;
@@ -138,7 +143,8 @@ end
 % Plot the actuator force
 figure(2)
 plot(T, u)
-title("Motor Force (N)")
+ylabel("Motor Force (N)")
+xlabel("Simulation Time (s)")
 
 %% Compare to Open Loop
 
@@ -149,11 +155,8 @@ for i = 1:4
     subplot(2,2,i)
     hold on
     plot(OpenLoop.T, OpenLoop.x(:,i))
+    legend("MPC", "OpenLoop")
 end
-
-% Plot the actuator force
-figure(2)
-plot(OpenLoop.T, OpenLoop.u)
 
 %% Extra Functions
 
