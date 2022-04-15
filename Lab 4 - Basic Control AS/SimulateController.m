@@ -9,10 +9,10 @@ close all
 %% Params
 typenames = ["LQR", "PolePlacement"];
 type = typenames(1);
-open_loop = 1;
-use_noise = 1;
-plot_real_data = 1;
-plot_open_loop = 0;
+open_loop = 0;
+use_noise = 0;
+plot_real_data = 0;
+plot_open_loop = 1;
 
 %% Data
 
@@ -52,11 +52,13 @@ if type == "LQR"
     Q(4,4) = 0.1;
     
     % R indicates the weights of each input
-    R = 0.001;
+    R = 0.0001;
     
     % Calculate the gain vector
     [K,~,~] = lqr(Am,Bm,Q,R);
-    K = 10*K;
+%     K = 10*K;
+    disp("Gain using LQR: ")
+    disp(K)
     disp("Pole locations using LQR: ")
     disp(eig(Am-Bm*K))
     
@@ -79,7 +81,6 @@ sim('LinearControlSim.slx')
 %% Calculate observer gain
 pp = [-1, -3, -5, -7];
 ob = obsv(A, C);
-rank(ob)
 C_prime = C(1,:);
 L = place(A', C_prime', pp);
 disp("Observer gain:")
@@ -125,6 +126,7 @@ end
 legend(legend_cell);
 xlabel("Time (s)")
 ylabel("Acceleration (m/s^2)")
+xlim([0 T(end)])
 title("Acceleration")
 
 %% State Variables Plot
@@ -181,6 +183,7 @@ end
 for i = 1:4
     subplot(2,2,i)
     legend(legend_cell)
+    xlim([0 T(end)])
 end
 
 %% This plot should match against LabView 

@@ -14,7 +14,7 @@ Q(4,4) = 0.1;	% Pendulum angle velocity
 Q = Q/norm(Q);	% Normalize the weight matrix
 
 % Set the weight of the input
-R = 0.5;
+R = 0.05;
 
 % Create the output matrices
 C = eye(4);
@@ -31,8 +31,8 @@ comat=ctrb(Am,Bm);
 corank=rank(comat);
 
 %Chekcing open loop eigenvalues: 
-eigA = eig(Am);
-disp("Eigenvalues of Am: ");
+eigA = eig(Am - Bm*K);
+disp("Eigenvalues of system: ");
 disp(eigA);
 
 %Closed Loop eigenvalues desired:
