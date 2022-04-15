@@ -26,10 +26,6 @@ ControllerIndex = controllers.MPC;
 % Whether to inject noise
 use_noise = 0;
 
-% Calculate symbolic matrices
-global use_sym
-use_sym = 0;
-
 % Toggle the controller on or off
 open_loop = 0;
 
@@ -48,17 +44,13 @@ Q(4,4) = 1;
 R = 0.0005;
 
 % Control and Prediction Horizon
-Np = 100;
-Nc = 50;
+Np = 1;
+Nc = 1;
 assert(Np >= Nc)
 
-if use_sym
-   syms A B C D real 
-end
-
 % Create Ap and Bp Matrices
-Ap = Zeros(size(dA, 1)*Np, size(dA, 2)*1 );
-Bp = Zeros(size(dC, 1)*Np, size(dB, 2)*Nc);
+Ap = zeros(size(dA, 1)*Np, size(dA, 2)*1 );
+Bp = zeros(size(dC, 1)*Np, size(dB, 2)*Nc);
 
 % Populate the Ap Matrix
 val = dC;           % Value to put into Ap 
@@ -74,15 +66,15 @@ end
 % Populate the Bp matrix
 hB = size(dC,1);
 wB = size(dB,2);
-for row = 1:(size(Bp,1)/hB)
+for row = 1:Np
     row_start_idx = hB*(row-1) + 1;
     row_end_idx   = hB*row;
 
-    row_entry = Zeros(hB, size(Bp,2));
-    for col = 1:(size(Bp,2)/wB)
+    row_entry = zeros(hB, size(Bp,2));
+    for col = 1:Nc
         % Find the chunk for this entry
         start_col_idx = wB*(col-1)+1;
-        end_col_idx  = wB*col;
+        end_col_idx   = wB*col;
 
         % Find the power of A in this column for this row
         pow = row - col;
@@ -157,23 +149,5 @@ for i = 1:4
     plot(OpenLoop.T, OpenLoop.x(:,i))
     legend("MPC", "OpenLoop")
 end
-
-%% Extra Functions
-
-function y = Zeros(varargin)
-    global use_sym
-    y = zeros(varargin{:});
-    if use_sym
-       y = sym(y); 
-    end
-end
-
-
-
-
-
-
-
-
 
 
