@@ -51,6 +51,26 @@ f3 = createNewPlot(20,1,0.54-0.88);
 
 %% Plot the results for Np=20, Nc=10
 f4 = createNewPlot(20,10,0.54-0.33);
+load("ModifiedData.mat")
+hold on
+subplot(3,2,1)
+plot(ModifiedData.T, ModifiedData.x(:,1))
+legend("Open Loop", "MPC", "Simulation")
+subplot(3,2,2)
+plot(ModifiedData.T, ModifiedData.x(:,2))
+legend("Open Loop", "MPC", "Simulation")
+subplot(3,2,3)
+plot(ModifiedData.T, ModifiedData.x(:,3))
+legend("Open Loop", "MPC", "Simulation")
+subplot(3,2,4)
+plot(ModifiedData.T, ModifiedData.x(:,4))
+legend("Open Loop", "MPC", "Simulation")
+subplot(3,2,5)
+plot(ModifiedData.T, ModifiedData.u)
+legend("Open Loop", "MPC", "Simulation")
+subplot(3,2,6)
+plot(ModifiedData.T, ModifiedData.y(:,2))
+legend("Open Loop", "MPC", "Simulation")
 
 %% Plot the results for Np=20, Nc=20
 f5 = createNewPlot(20,20,2.21-1.16);

@@ -29,6 +29,9 @@ use_noise = 0;
 % Toggle the controller on or off
 open_loop = 0;
 
+% Toggle plotting the saved open loop data
+plot_open_loop = 0;
+
 %% MPC Model
 
 % Make the output equal to the state
@@ -38,14 +41,15 @@ dD = zeros(4,1);
 % Weighting matrices
 Q = eye(4);
 Q(1,1) = 1;
-Q(2,2) = 1;
+Q(2,2) = 10;
 Q(3,3) = 1;
 Q(4,4) = 1;
-R = 0.0005;
+% Q(1,:) = C(2,:);
+R = 0.005;
 
 % Control and Prediction Horizon
-Np = 1;
-Nc = 1;
+Np = 20;
+Nc = 10;
 assert(Np >= Nc)
 
 % Create Ap and Bp Matrices
@@ -115,6 +119,7 @@ sim('AdvancedControlSim.slx')
 %% Plot the results
 
 T = state.Time;
+T = T + 2.2;
 if use_noise
     x = noisy_state.Data;
 else
@@ -123,6 +128,12 @@ end
 y = output.Data;
 u = input.Data(:,2);
 
+ModifiedData = struct();
+ModifiedData.T = T;
+ModifiedData.x = x;
+ModifiedData.y = y;
+ModifiedData.u = u;
+
 % Plot the 4 states
 figure(1)
 states = ["Suspension Travel", "Body Velocity", "Tire Deflection", "Tire Velocity"];
@@ -130,6 +141,7 @@ for i = 1:4
     subplot(2,2,i)
     plot(T, x(:,i))
     title(states(i));
+    xlim([T(1) T(end)])
 end
 
 % Plot the actuator force
@@ -137,17 +149,31 @@ figure(2)
 plot(T, u)
 ylabel("Motor Force (N)")
 xlabel("Simulation Time (s)")
+xlim([T(1) T(end)])
+
+% Plot the acceleration
+figure(3)
+plot(T, y(:,2))
+grid on
+xlabel("Simulation Time (s)")
+ylabel("Acceleration (m/s^2)")
+xlim([T(1) T(end)])
 
 %% Compare to Open Loop
 
-load("OpenLoopSimResults")
+if plot_open_loop
+    load("OpenLoopSimResults")
 
-figure(1)
-for i = 1:4
-    subplot(2,2,i)
+    figure(1)
+    for i = 1:4
+        subplot(2,2,i)
+        hold on
+        plot(OpenLoop.T, OpenLoop.x(:,i))
+        legend("MPC", "OpenLoop")
+    end
+
+    figure(3)
     hold on
-    plot(OpenLoop.T, OpenLoop.x(:,i))
+    plot(OpenLoop.T, OpenLoop.y(:,2))
     legend("MPC", "OpenLoop")
 end
-
-
